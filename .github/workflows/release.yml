@@ -1,0 +1,65 @@
+name: 'Release Version'
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    outputs:
+      version_tag: ${{ steps.versioning.outputs.version_tag }}
+      current_commit: ${{ steps.versioning.outputs.current_commit }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies for publishing
+        run: pnpm install
+      - name: Build package
+        run: pnpm build
+      - name: Versioning
+        id: versioning
+        uses: paulhatch/semantic-version@v5.4.0
+      - name: Update version in package.json
+        run: |
+          new_version=${{ steps.versioning.outputs.version_tag }}
+          # Update the version in package.json
+          pnpm version --no-git-tag-version --new-version $new_version
+      - name: Commit and push changes
+        run: |
+          # TODO: Update with your own name and email
+          git config user.name "John Doe"
+          git config user.email "john.doe@example.com"
+          git add package.json
+          git commit -m "build: bump version to ${{ steps.versioning.outputs.version_tag }}"
+          git push
+
+      - name: Publish to NPM
+        run: pnpm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  generate-release-notes:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    needs: bump-version
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Generate release notes
+        uses: ncipollo/release-action@v1
+        with:
+          generateReleaseNotes: true
+          tag: ${{ needs.bump-version.outputs.version_tag }}
+          commit: ${{ needs.bump-version.outputs.current_commit }}
