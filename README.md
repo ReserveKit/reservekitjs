@@ -1,19 +1,28 @@
-# Package Kit
+# ReserveKit JS SDK
 
-A library for building packages.
+A JS library for ReserveKit API
 
 ## Usage
 
-- Change your name and email in the release workflow
-- Change the name of the package in the `vite.config.ts` file
-- Change the name, description, author and repository.url of the package in the
-  `package.json` file
-- Change the name of the package in the `README.md` file
-- Change the name of the package in the `LICENSE` file
+```js
+const reserveKitClient = new ReserveKit('xXXxXXXxx')
 
-Set secrets in the repository settings:
+// Get a service by its ID
+await reserveKitClient.initService(1)
 
-- NPM_TOKEN
-- PAT
+const serviceName = reserveKitClient.service.name
+const serviceDescription = reserveKitClient.service.description
+// ....other props
 
-# TBD
+// Get time slots by its Service ID
+const timeSlots = await reserveKitClient.service.getTimeSlots()
+
+// Create a booking under that service
+const booking = reserveKitClient.service.createBooking({
+ customer_name: 'John',
+ customer_email: 'john@example.com',
+ customer_phone: '+111222334',
+ date: '2020-10-10',
+ timeSlotId: 1,
+})
+```
