@@ -17,6 +17,10 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.PAT }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
