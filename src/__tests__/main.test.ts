@@ -12,14 +12,14 @@ describe('ReserveKit', () => {
 
 	describe('constructor', () => {
 		it('should initialize with default options', () => {
-			expect(reserveKit.publicApiKey).toBe(mockPublicKey)
+			expect(reserveKit.secretKey).toBe(mockPublicKey)
 			expect(reserveKit.host).toBe('https://api.reservekit.io')
 			expect(reserveKit.version).toBe('v1')
 		})
 
-		it('should throw error if publicApiKey is missing', () => {
+		it('should throw error if secretKey is missing', () => {
 			expect(() => new ReserveKit('')).toThrow(
-				'ReserveKit: publicApiKey is missing',
+				'ReserveKit: secretKey is missing',
 			)
 		})
 	})
