@@ -17,7 +17,7 @@ export default class ApiClient {
 	private getHeaders() {
 		const headers = {
 			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + this.config.publicApiKey,
+			Authorization: 'Bearer ' + this.config.secretKey,
 		}
 
 		return headers

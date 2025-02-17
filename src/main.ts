@@ -6,18 +6,18 @@ import ServiceClient from './service'
 export default class ReserveKit {
 	public host: string
 	public version: string
-	public publicApiKey: string
+	public secretKey: string
 	public apiClient: ApiClient
 	public service: ServiceClient | null = null
 
 	public serviceId: number
 
-	constructor(publicApiKey: string, opts: ReserveKitOptions = {}) {
-		if (!publicApiKey) {
-			throw new Error('ReserveKit: publicApiKey is missing')
+	constructor(secretKey: string, opts: ReserveKitOptions = {}) {
+		if (!secretKey) {
+			throw new Error('ReserveKit: secretKey is missing')
 		}
 
-		this.publicApiKey = publicApiKey
+		this.secretKey = secretKey
 		this.host = opts.host || DEFAULT_HOST
 		this.version = opts.version || DEFAULT_VERSION
 		this.apiClient = new ApiClient(this)

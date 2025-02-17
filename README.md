@@ -52,12 +52,12 @@ const booking = await reserveKitClient.service.createBooking({
 #### Constructor
 
 ```typescript
-new ReserveKit(publicApiKey: string, options?: ReserveKitOptions)
+new ReserveKit(secretKey: string, options?: ReserveKitOptions)
 ```
 
 Parameters:
 
-- `publicApiKey` (required): Your ReserveKit API key
+- `secretKey` (required): Your ReserveKit API key. Do not expose this key in client-side code.
 - `options` (optional): Configuration options
   - `host`: API host (default: '<https://api.reservekit.io>')
   - `version`: API version (default: 'v1')
