@@ -12,6 +12,7 @@ describe('ServiceClient', () => {
 		provider_id: 'provider-123',
 		name: 'Test Service',
 		description: 'Test Description',
+		timezone: 'America/New_York',
 		version: 1,
 		created_at: new Date('2024-01-01'),
 		updated_at: new Date('2024-01-01'),

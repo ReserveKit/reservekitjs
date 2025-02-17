@@ -13,6 +13,7 @@ export default class ServiceClient {
 	public provider_id: string
 	public name: string
 	public description: string | null
+	public timezone: string
 	public version: number
 	public created_at: Date
 	public updated_at: Date
@@ -24,6 +25,7 @@ export default class ServiceClient {
 		this.id = service.id
 		this.provider_id = service.provider_id
 		this.name = service.name
+		this.timezone = service.timezone
 		this.description = service.description
 		this.created_at = service.created_at
 		this.updated_at = service.updated_at
