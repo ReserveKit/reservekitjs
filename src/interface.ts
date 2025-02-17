@@ -37,6 +37,7 @@ export interface IService {
 	description: string | null
 	version: number
 	provider_id: string
+	timezone: string
 	created_at: Date
 	updated_at: Date
 }
