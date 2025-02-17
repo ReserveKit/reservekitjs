@@ -1,7 +1,7 @@
 {
 	"name": "reservekitjs",
 	"private": false,
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "ReserveKit JS SDK",
 	"author": "ReserveKit Developer",
 	"type": "module",
