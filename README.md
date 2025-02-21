@@ -26,17 +26,19 @@ pnpm add reservekitjs
 
 ```javascript
 import { ReserveKit } from 'reservekitjs'
-// Initialize the client with your API key
-const reserveKitClient = new ReserveKit('your_api_key')
-// Initialize a service
-await reserveKitClient.initService(1)
+
+// Initialize the client with your API key and service ID
+const client = await ReserveKit.create('your_api_key', 1)
+
 // Access service properties
-console.log(reserveKitClient.service.name)
-console.log(reserveKitClient.service.description)
+console.log(client.service.name)
+console.log(client.service.description)
+
 // Get available time slots
-const timeSlots = await reserveKitClient.service.getTimeSlots()
+const timeSlots = await client.service.getTimeSlots()
+
 // Create a booking
-const booking = await reserveKitClient.service.createBooking({
+const booking = await client.service.createBooking({
   customer_name: 'John Doe',
   customer_email: 'john@example.com',
   customer_phone: '+1234567890',
@@ -49,18 +51,29 @@ const booking = await reserveKitClient.service.createBooking({
 
 ### ReserveKit Class
 
-#### Constructor
+#### Static Factory Method
 
 ```typescript
-new ReserveKit(secretKey: string, options?: ReserveKitOptions)
+static create(secretKey: string, serviceId: number, options?: ReserveKitOptions): Promise<ReserveKit>
 ```
 
 Parameters:
 
 - `secretKey` (required): Your ReserveKit API key. Do not expose this key in client-side code.
+- `serviceId` (required): The ID of the service to initialize
 - `options` (optional): Configuration options
-  - `host`: API host (default: '<https://api.reservekit.io>')
+  - `host`: API host (default: 'https://api.reservekit.io')
   - `version`: API version (default: 'v1')
+
+Returns: A Promise that resolves to an initialized ReserveKit instance.
+
+#### Constructor (Alternative Method)
+
+```typescript
+new ReserveKit(secretKey: string, options?: ReserveKitOptions)
+```
+
+Note: When using the constructor directly, you'll need to call `initService(serviceId)` separately. It's recommended to use the static `create()` method instead for a better developer experience.
 
 #### Methods
 

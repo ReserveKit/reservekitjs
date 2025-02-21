@@ -9,8 +9,23 @@ export default class ReserveKit {
 	public secretKey: string
 	public apiClient: ApiClient
 	public service: ServiceClient | null = null
-
 	public serviceId: number
+
+	/**
+	 * Static factory method to create and initialize a ReserveKit instance
+	 * @param secretKey Your ReserveKit API key
+	 * @param serviceId The ID of the service to initialize
+	 * @param opts Optional configuration options
+	 */
+	public static async create(
+		secretKey: string,
+		serviceId: number,
+		opts: ReserveKitOptions = {},
+	): Promise<ReserveKit> {
+		const client = new ReserveKit(secretKey, opts)
+		await client.initService(serviceId)
+		return client
+	}
 
 	constructor(secretKey: string, opts: ReserveKitOptions = {}) {
 		if (!secretKey) {
@@ -38,6 +53,7 @@ export default class ReserveKit {
 
 		if (res?.data) {
 			this.service = new ServiceClient(this, res.data)
+			this.serviceId = serviceId
 			return
 		} else {
 			throw new Error(res?.error || 'service error')

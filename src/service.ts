@@ -35,6 +35,11 @@ export default class ServiceClient {
 		this.apiVersion = reserveKitClient.version
 	}
 
+	/**
+	 * Get available time slots for the service
+	 * @returns Promise that resolves to an array of time slots
+	 * @throws Error if time slots cannot be retrieved
+	 */
 	public async getTimeSlots() {
 		const res = await this.apiClient?.request<{
 			time_slots: ITimeSlot[]
@@ -54,6 +59,17 @@ export default class ServiceClient {
 		throw new Error(res?.error || "can't retrieve time slots")
 	}
 
+	/**
+	 * Create a new booking for the service
+	 * @param payload - The booking details
+	 * @param payload.customer_name - Name of the customer
+	 * @param payload.customer_email - Email of the customer
+	 * @param payload.customer_phone - Phone number of the customer
+	 * @param payload.date - Date of the booking (YYYY-MM-DD)
+	 * @param payload.time_slot_id - ID of the selected time slot
+	 * @returns Promise that resolves to the created booking
+	 * @throws Error if booking creation fails
+	 */
 	public async createBooking(payload: CreateBookingPayload) {
 		const res = await this.apiClient?.request<IBooking>({
 			type: 'post',
